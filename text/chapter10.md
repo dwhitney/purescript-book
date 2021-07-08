@@ -503,36 +503,56 @@ exports.unsafeHead = arr => {
 
 ## Using Type Class Member Functions
 
-Just like our earlier guide on passing the `Maybe` constructor over FFI, this is another case of writing PureScript that calls JavaScript, which in turn calls PureScript functions again. Here we will explore how to pass type class member functions over the FFI.
+Say we want to write a function that relies on its argument having a `Show` instance, in a foreign JavaScript module. We might want to do this:
 
-We start with writing a foreign JavaScript function which expects the appropriate instance of `show` to match the type of `x`.
+```hs
+-- Don't do this.
+
+foreign import boldBad :: forall a. Show a => a -> String
+```
+
+This would work provided the foreign module exports:
+
+```js
+// Seriously. Don't. Read on.
+
+exports.boldBad = Show => x =>
+  Show.show(x).toUppercase() + "!!!";
+```
+
+A constraint in a foreign import definition results in importing a curried function that accepts a _dictionary_ object containing the class members. The compiler implicitly passes, for us, a dictionary of the correct instance members when calling the foreign function. However, this practice has been DEPRECATED and doing so will trigger a warning. Accessing type class members though dictionary objects was an unnecessary indirection. Not passing dictionaries also enhances code optimization.
+
+Instead, simply pass the type class members we need to the foreign function &mdash; like when passing the `Maybe` data constructors.
+
+We write the foreign JavaScript function expecting the member function, in our case we're expecting `show`.
 
 ```js
 exports.boldImpl = show => x =>
   show(x).toUpperCase() + "!!!";
 ```
 
-Then we write the matching signature:
+Then we write the matching type for the foreign import.
+
 
 ```hs
 foreign import boldImpl :: forall a. (a -> String) -> a -> String
 ```
 
-and a wrapper function that passes the correct instance of `show`:
+And finally, the intended function passes the correct instance of `show`.
 
 ```hs
 bold :: forall a. Show a => a -> String
 bold x = boldImpl show x
 ```
 
-Alternatively in point-free form:
+Alternatively in point-free style:
 
 ```hs
 bold :: forall a. Show a => a -> String
 bold = boldImpl show
 ```
 
-We can then call the wrapper:
+We can then call `bold`:
 
 ```text
 $ spago repl
