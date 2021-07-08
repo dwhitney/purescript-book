@@ -4,7 +4,7 @@
 
 Functional programming techniques have been making appearances in JavaScript for some time now:
 
-- Libraries such as [UnderscoreJS](https://underscorejs.org) allow the developer to leverage tried-and-trusted functions such as `map`, `filter` and `reduce` to create larger programs from smaller programs by composition:
+- Libraries such as [lodash](https://lodash.com/), [ramda](https://ramdajs.com/), and [fp-ts](https://gcanti.github.io/fp-ts/), allow the developer to leverage tried-and-trusted functions such as `map`, `filter` and `reduce` to create larger programs from smaller programs by composition:
 
     ```javascript
     var sumOfPrimes =
@@ -35,6 +35,18 @@ Functional programming techniques have been making appearances in JavaScript for
 Functions enable a simple form of abstraction which can yield great productivity gains. However, functional programming in JavaScript has its own disadvantages: JavaScript is verbose, untyped, and lacks powerful forms of abstraction. Unrestricted JavaScript code also makes equational reasoning very difficult.
 
 PureScript is a programming language which aims to address these issues. It features lightweight syntax, which allows us to write very expressive code which is still clear and readable. It uses a rich type system to support powerful abstractions. It also generates fast, understandable code, which is important when interoperating with JavaScript, or other languages which compile to JavaScript. All in all, I hope to convince you that PureScript strikes a very practical balance between the theoretical power of purely functional programming, and the fast-and-loose programming style of JavaScript.
+
+### About TypeScript and Elm
+
+PureScript, TypeScript, and Elm, are often compared, so it's important to talk about some major differences between them.
+
+On TypeScript side, the type system is intentionally unsound by design to enable full JavaScript compatibility, and PureScript core features around the type system can be reproduce, but only partially and with a lot of boilerplate (like pattern matching on ADTs).
+
+For Elm, the difference is mostly on the target, as Elm aim browser, unlike PureScript who is about every part of JavaScript ecosystem. Elm ecosystem is also quite close and lacks of ways to expands it and make it evolve.
+
+PureScript has also its downsides, like its learning curve and its youngness.
+
+More infomations about this subject can be found [here](https://discourse.purescript.org/t/language-highlights/1471).
 
 ## Types and Type Inference
 
@@ -142,7 +154,7 @@ If you get stuck at any point, there are a number of resources available online 
 - The [PureScript website](https://www.purescript.org) contains links to several learning resources, including code samples, videos and other resources for beginners.
 - [Try PureScript!](https://try.purescript.org) is a website which allows users to compile PureScript code in the web browser, and contains several simple examples of code.
 
-If you prefer to learn by reading examples, the `purescript`, `purescript-node` and `purescript-contrib` GitHub organizations contain plenty of examples of PureScript code.
+If you prefer to learn by reading examples, the [purescript](https://github.com/purescript), [purescript-node](https://github.com/purescript-node) and [purescript-contrib](https://github.com/purescript-contrib) GitHub organizations contain plenty of examples of PureScript code.
 
 ## About the Author
 
